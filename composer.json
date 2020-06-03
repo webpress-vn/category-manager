@@ -1,0 +1,19 @@
+{
+    "name": "webpress/category-manager",
+    "authors": [
+        {
+            "name": "sonhaichu",
+            "email": "sonhaichu@gmail.com"
+        }
+    ],
+    "autoload": {
+        "classmap": [],
+        "psr-4": {
+            "VCComponent\\Laravel\\Category\\": "src/app"
+        }
+    },
+    "require": {
+        "webpress/core": "0.0.1"
+    },
+    "prefer-stable": true
+}
