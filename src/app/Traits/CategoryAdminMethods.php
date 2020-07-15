@@ -66,7 +66,8 @@ trait CategoryAdminMethods
         return $this->response->paginator($categories, $transformer);
     }
 
-    function list(Request $request) {
+    function list(Request $request)
+    {
         $query = $this->entity;
         $query = $this->applyConstraintsFromRequest($query, $request);
         $query = $this->applySearchFromRequest($query, ['name'], $request);

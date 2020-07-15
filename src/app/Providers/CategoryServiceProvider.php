@@ -5,6 +5,8 @@ namespace VCComponent\Laravel\Category\Providers;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use VCComponent\Laravel\Category\Categories\Category;
+use VCComponent\Laravel\Category\Categories\Contracts\Category as ContractsCategory;
 use VCComponent\Laravel\Category\Contracts\ViewCategoryDetailControllerInterface;
 use VCComponent\Laravel\Category\Contracts\ViewCategoryListControllerInterface;
 use VCComponent\Laravel\Category\Http\Controllers\Web\CategoryDetailController as ViewCategoryDetailController;
@@ -51,11 +53,25 @@ class CategoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(CategoryRepository::class, CategoryRepositoryEloquent::class);
         $this->registerControllers();
+
+        $this->app->singleton('moduleCategory.category', function () {
+            return new Category();
+        });
+
+        $this->app->bind(ContractsCategory::class, 'moduleCategory.category');
     }
 
     private function registerControllers()
     {
         $this->app->bind(ViewCategoryListControllerInterface::class, ViewCategoryListController::class);
         $this->app->bind(ViewCategoryDetailControllerInterface::class, ViewCategoryDetailController::class);
+    }
+
+    public function provides()
+    {
+        return [
+            ContractsCategory::class,
+            'moduleCategory.category',
+        ];
     }
 }

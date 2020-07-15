@@ -19,8 +19,6 @@ $api->version('v1', function ($api) {
             $api->put('categories/status/bulk', 'VCComponent\Laravel\Category\Http\Controllers\Api\Admin\CategoryController@bulkUpdateStatus');
             $api->put('categories/status/{id}', 'VCComponent\Laravel\Category\Http\Controllers\Api\Admin\CategoryController@updateStatusItem');
             $api->resource('categories', 'VCComponent\Laravel\Category\Http\Controllers\Api\Admin\CategoryController');
-            $api->post('categories/{id}/language', 'VCComponent\Laravel\Category\Http\Controllers\Api\Admin\CategoryController@storeTranslateLanguage');
-
         });
         $api->get('categories/all', 'VCComponent\Laravel\Category\Http\Controllers\Api\Frontend\CategoryController@list');
         $api->put('categories/status/bulk', 'VCComponent\Laravel\Category\Http\Controllers\Api\Frontend\CategoryController@bulkUpdateStatus');
