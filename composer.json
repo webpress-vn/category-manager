@@ -15,5 +15,13 @@
     "require": {
         "webpress/core": "0.0.1"
     },
-    "prefer-stable": true
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "VCComponent\\Laravel\\Category\\Providers\\CategoryRouteProvider",
+                "VCComponent\\Laravel\\Category\\Providers\\CategoryServiceProvider",
+            ]
+        }
+    }
 }
