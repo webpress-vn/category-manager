@@ -7,7 +7,7 @@
         }
     ],
     "autoload": {
-        "classmap": [],
+        "classmap": ["src/app/"],
         "psr-4": {
             "VCComponent\\Laravel\\Category\\": "src/app"
         }
