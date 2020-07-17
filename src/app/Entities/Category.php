@@ -2,7 +2,6 @@
 
 namespace VCComponent\Laravel\Category\Entities;
 
-use App\Entities\Product;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
@@ -18,8 +17,8 @@ class Category extends Model implements Transformable, CategorySchema, CategoryM
 {
     use TransformableTrait, CategorySchemaTrait, CategoryManagementTrait, Sluggable, SluggableScopeHelpers;
 
-    const STATUS_PENDING = 1;
-    const STATUS_ACTIVE  = 2;
+    const STATUS_PENDING = 2;
+    const STATUS_ACTIVE  = 1;
 
     protected $fillable = [
         'name',
@@ -49,16 +48,6 @@ class Category extends Model implements Transformable, CategorySchema, CategoryM
     public function scopeOfType($query, $type)
     {
         return $query->where('type', $type);
-    }
-
-    public function products()
-    {
-        return $this->morphedByMany(Product::class, 'categoryables');
-    }
-
-    public function productCounts()
-    {
-        return $this->products()->count();
     }
 
     public function scopePublished($query)

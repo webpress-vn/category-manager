@@ -9,8 +9,8 @@ use Prettus\Repository\Traits\TransformableTrait;
 class Categoryable extends Model implements Transformable
 {
     use TransformableTrait;
-    const STATUS_PENDING = 1;
-    const STATUS_ACTIVE  = 2;
+    const STATUS_PENDING = 2;
+    const STATUS_ACTIVE  = 1;
     protected $table     = 'categoryables';
     protected $fillable  = [
         'category_id',

@@ -5,7 +5,8 @@ return [
     'namespace'       => env('CATEGORY_COMPONENT_NAMESPACE', 'category-management'),
 
     'models'          => [
-        'category' => VCComponent\Laravel\Category\Entities\Category::class,
+        // 'category' => VCComponent\Laravel\Category\Entities\Category::class,
+        'category' => App\Entities\Category::class,
     ],
 
     'transformers'    => [
@@ -22,5 +23,8 @@ return [
             'except'     => [],
         ],
     ],
-
+    'cache'           => [
+        'enabled' => true,
+        'minutes' => 5,
+    ],
 ];
