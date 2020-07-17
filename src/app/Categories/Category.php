@@ -2,22 +2,20 @@
 
 namespace VCComponent\Laravel\Category\Categories;
 
-use VCComponent\Laravel\Category\Categories\Contracts\Category as ContractsCategory;
-use VCComponent\Laravel\Category\Entities\Category as EntitiesCategory;
+use Illuminate\Support\Facades\Cache;
+use VCComponent\Laravel\Category\Categories\CategoryQueryTrait;
+use VCComponent\Laravel\Category\Entities\Category as Entity;
 
-class Category implements ContractsCategory
+class Category
 {
+    use CategoryQueryTrait;
 
     public $entity;
-    protected $limit;
-    protected $column;
-    protected $value;
-    protected $id;
-    protected $attributes = [];
-    protected $direction;
-    protected $relations;
-    const STATUS_PENDING = 1;
-    const STATUS_ACTIVE  = 2;
+    const STATUS_PENDING = 2;
+    const STATUS_ACTIVE  = 1;
+
+    protected $cache        = false;
+    protected $cacheMinutes = 60;
 
     public function __construct()
     {
@@ -25,105 +23,38 @@ class Category implements ContractsCategory
             $model        = config('category.models.category');
             $this->entity = new $model;
         } else {
-            $this->entity = new EntitiesCategory;
+            $this->entity = new Entity;
+        }
+
+        if (isset(config('category.cache')['enabled']) === true) {
+            $this->cache     = true;
+            $this->timeCache = config('category.cache')['minutes'] ? config('category.cache')['minutes'] * 60 : $this->cacheMinutes * 60;
         }
     }
 
     public function withRelationPaginate($column = '', $value = '', $relations = 'products', $perPage = 5)
     {
-
-        switch ($relations) {
-            case "posts":
-                $post = $this->entity->where($column, $value)->first();
-                if ($post) {
-                    return $post->posts()->paginate($perPage);
-                }
-                break;
-            case "products":
-                $product = $this->entity->where($column, $value)->first();
-                if ($product) {
-                    return $product->products()->paginate($perPage);
-                }
-                break;
-            default:
-                return $this;
-                break;
+        if ($this->cache === true) {
+            if (Cache::has('withRelationPaginate') && Cache::get('withRelationPaginate')->count() !== 0) {
+                return Cache::get('withRelationPaginate');
+            }
+            return Cache::remember('withRelationPaginate', $this->timeCache, function () use ($column, $value, $relations, $perPage) {
+                return $this->withRelationPaginateQuery($column, $value, $relations, $perPage);
+            });
         }
+        return $this->withRelationPaginateQuery($column, $value, $relations, $perPage);
     }
 
-    public function where($column, $value)
+    public function published($value = 4, $relation = null, $value_relation = 5)
     {
-        $query = $this->entity->where($column, $value)->get();
-
-        return $query;
-    }
-
-    public function findOrFail($id)
-    {
-        return $this->entity->findOrFail($id);
-    }
-
-    public function toSql()
-    {
-        return $this->entity->toSql();
-    }
-
-    public function get()
-    {
-        return $this->entity->get();
-    }
-    public function published()
-    {
-        $query = $this->entity->where('status', self::STATUS_ACTIVE)->limit(4)->get();
-
-        return $query;
-    }
-
-    public function paginate($perPage)
-    {
-        return $this->entity->paginate($perPage);
-    }
-
-    public function limit($value)
-    {
-
-        return $this->entity->limit($value);
-    }
-
-    public function orderBy($column, $direction = 'asc')
-    {
-        return $this->entity->orderBy($column, $direction);
-    }
-
-    public function with($relations)
-    {
-        $this->entity->with($relations);
-
-        return $this;
-    }
-
-    public function first()
-    {
-        return $this->entity->first();
-    }
-
-    public function create(array $attributes = [])
-    {
-        return $this->entity->create($attributes);
-    }
-
-    public function firstOrCreate(array $attributes, array $values = [])
-    {
-        return $this->entity->firstOrCreate($attributes, $values);
-    }
-
-    public function update(array $values)
-    {
-        return $this->entity->update($values);
-    }
-
-    public function delete()
-    {
-        return $this->entity->delete();
+        if ($this->cache === true) {
+            if (Cache::has('published') && Cache::get('published')->count() !== 0) {
+                return Cache::get('published');
+            }
+            return Cache::remember('published', $this->timeCache, function () use ($value, $relation, $value_relation) {
+                return $this->publishedQuery($value, $relation, $value_relation);
+            });
+        }
+        return $this->publishedQuery($value, $relation, $value_relation);
     }
 }
