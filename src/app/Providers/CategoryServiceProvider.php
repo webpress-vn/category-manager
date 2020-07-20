@@ -2,7 +2,6 @@
 
 namespace VCComponent\Laravel\Category\Providers;
 
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use VCComponent\Laravel\Category\Categories\Category;
@@ -12,8 +11,6 @@ use VCComponent\Laravel\Category\Http\Controllers\Web\CategoryDetailController a
 use VCComponent\Laravel\Category\Http\Controllers\Web\CategoryListController as ViewCategoryListController;
 use VCComponent\Laravel\Category\Repositories\CategoryRepository;
 use VCComponent\Laravel\Category\Repositories\CategoryRepositoryEloquent;
-use VCComponent\Laravel\Post\Entities\Post;
-use VCComponent\Laravel\Product\Entities\Product;
 
 class CategoryServiceProvider extends ServiceProvider
 {
@@ -32,10 +29,6 @@ class CategoryServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views/', 'category-manager');
 
-        Relation::morphMap([
-            'products' => Product::class,
-            'posts'    => Post::class,
-        ]);
         Schema::defaultStringLength(191);
     }
 
