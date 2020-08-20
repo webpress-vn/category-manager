@@ -29,6 +29,7 @@ class CategoryTransformer extends TransformerAbstract
             'slug'      => $model->slug,
             'type'      => $model->type,
             'status'    => $model->status,
+            'hot'       => $model->hot,
         ];
 
         $transform['timestamps'] = [

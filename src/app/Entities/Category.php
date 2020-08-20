@@ -11,7 +11,6 @@ use VCComponent\Laravel\Category\Contracts\CategoryManagement;
 use VCComponent\Laravel\Category\Contracts\CategorySchema;
 use VCComponent\Laravel\Category\Traits\CategoryManagementTrait;
 use VCComponent\Laravel\Category\Traits\CategorySchemaTrait;
-use VCComponent\Laravel\Language\Traits\HasLanguageTrait;
 
 class Category extends Model implements Transformable, CategorySchema, CategoryManagement
 {
@@ -24,6 +23,8 @@ class Category extends Model implements Transformable, CategorySchema, CategoryM
         'name',
         'parent_id',
         'type',
+        'status',
+        'hot',
     ];
 
     public function sluggable()
