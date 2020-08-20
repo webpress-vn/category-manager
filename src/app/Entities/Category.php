@@ -25,6 +25,7 @@ class Category extends Model implements Transformable, CategorySchema, CategoryM
         'type',
         'status',
         'hot',
+        'thumbnail',
     ];
 
     public function sluggable()
