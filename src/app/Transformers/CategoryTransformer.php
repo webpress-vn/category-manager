@@ -66,4 +66,18 @@ class CategoryTransformer extends TransformerAbstract
     {
         return $this->collection($model->menus, new ItemMenuTransformer());
     }
+    public function includePosts($model)
+    {
+        if ($model->posts) {
+            return $this->collection($model->posts, new PostTransformer());
+        }
+        return $this->null;
+    }
+    public function includeProducts($model)
+    {
+        if ($model->products) {
+            return $this->collection($model->products, new ProductTransformer());
+        }
+        return $this->null;
+    }
 }
