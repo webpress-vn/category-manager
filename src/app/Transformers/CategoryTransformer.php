@@ -29,7 +29,7 @@ class CategoryTransformer extends TransformerAbstract
             'slug'      => $model->slug,
             'type'      => $model->type,
             'status'    => $model->status,
-            'hot'       => $model->hot,
+            'is_hot'    => $model->is_hot,
             'thumbnail' => $model->thumbnail,
         ];
 
