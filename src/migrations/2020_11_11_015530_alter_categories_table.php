@@ -25,10 +25,6 @@ class AlterCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('categories', function (Blueprint $table) {
-            if (Schema::hasColumn('is_hot')) {
-                $table->renameColumn('is_hot', 'hot');
-            }
-        });
+        //
     }
 }
