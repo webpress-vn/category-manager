@@ -13,7 +13,7 @@
         }
     },
     "require": {
-        "webpress/core": "0.0.1"
+        "webpress/core": "0.1.0"
     },
     "prefer-stable": true,
     "extra": {
