@@ -27,6 +27,7 @@ class CategoryTransformer extends TransformerAbstract
             'parent_id' => (int) $model->parent_id,
             'name'      => $model->name,
             'slug'      => $model->slug,
+            'description'      => $model->description,
             'type'      => $model->type,
             'status'    => $model->status,
             'is_hot'    => $model->is_hot,
