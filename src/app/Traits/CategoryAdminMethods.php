@@ -196,6 +196,15 @@ trait CategoryAdminMethods
         return $this->success();
     }
 
+    public function bulkDelete(Request $request)
+    {
+        $ids      = $request->ids;
+        $category = $this->entity::whereIn('id', $ids);
+
+        $category->delete();
+        return $this->success();
+    }
+
     public function bulkUpdateStatus(Request $request)
     {
         if (config('category.auth_middleware')['admin']['middleware']) {
