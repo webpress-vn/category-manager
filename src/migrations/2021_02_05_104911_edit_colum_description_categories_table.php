@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddOrderIntoCategoriesTable extends Migration
+class EditColumDescriptionCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddOrderIntoCategoriesTable extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->string("order")->default(0)->after('is_hot');
+            $table->text('description')->nullable()->after('slug')->change();
         });
     }
 
@@ -26,7 +26,7 @@ class AddOrderIntoCategoriesTable extends Migration
     public function down()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->dropColumn('order');
+            $table->dropColumn('description');
         });
     }
 }

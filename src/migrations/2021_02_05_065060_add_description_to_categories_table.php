@@ -14,7 +14,7 @@ class AddDescriptionToCategoriesTable extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->text('description')->nullable()->after('slug');
+            $table->string('description')->nullable()->after('slug');
         });
     }
 
