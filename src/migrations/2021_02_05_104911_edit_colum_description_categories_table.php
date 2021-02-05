@@ -26,7 +26,7 @@ class EditColumDescriptionCategoriesTable extends Migration
     public function down()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->dropColumn('description');
+            $table->string('description')->nullable()->after('slug')->change();
         });
     }
 }
