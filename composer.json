@@ -14,7 +14,8 @@
     },
     "require": {
         "webpress/core": "^0.1",
-        "cviebrock/eloquent-sluggable": "7.0.1"
+        "cviebrock/eloquent-sluggable": "7.0.1",
+        "doctrine/dbal": "v2.10.1"
     },
     "prefer-stable": true,
     "extra": {
