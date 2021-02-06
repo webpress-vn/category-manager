@@ -25,6 +25,7 @@ class Category extends Model implements Transformable, CategorySchema, CategoryM
         'type',
         'description',
         'status',
+        'order',
         'is_hot',
         'thumbnail',
     ];
