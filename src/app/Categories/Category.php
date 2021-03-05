@@ -57,4 +57,28 @@ class Category
         }
         return $this->publishedQuery($value, $relation, $value_relation);
     }
+     public function getCategories($post_type, $number, $pagination= false,$order_by="id", $order="desc", $is_hot = 0, $status =1)
+    {
+        if ($this->cache === true) {
+            if (Cache::has('getCategories') && Cache::get('getCategories')->count() !== 0) {
+                return Cache::get('getCategories');
+            }
+            return Cache::remember('getCategories', $this->timeCache, function () use ($post_type, $number, $pagination, $order_by, $order, $is_hot, $status) {
+                return $this->getCategoriesQuery($post_type, $number, $pagination, $order_by, $order, $is_hot, $status);
+            });
+        }
+        return $this->getCategoriesQuery($post_type, $number, $pagination, $order_by, $order, $is_hot, $status);
+    }
+    public function getPostCategories($post_id, $post_type, $number, $pagination= false, $order_by="id", $order="desc", $is_hot = 0, $status =1)
+    {
+        if ($this->cache === true) {
+            if (Cache::has('getPostCategories') && Cache::get('getPostCategories')->count() !== 0) {
+                return Cache::get('getPostCategories');
+            }
+            return Cache::remember('getPostCategories', $this->timeCache, function () use ($post_id, $post_type, $number, $pagination, $order_by, $order, $is_hot, $status) {
+                return $this->getPostCategoriesQuery($post_id, $post_type, $number, $pagination, $order_by, $order, $is_hot, $status);
+            });
+        }
+        return $this->getPostCategoriesQuery($post_id, $post_type, $number, $pagination, $order_by, $order, $is_hot, $status);
+    }
 }
