@@ -47,28 +47,4 @@ trait CategoryQueryTrait
 
         return $this->entity->where('status', self::STATUS_ACTIVE)->limit($value)->get();
     }
-    public function getCategoriesQuery($post_type, $number, $pagination, $order_by, $order, $is_hot, $status) {
-        $query =  $this->entity->where('type', $post_type)
-            ->with('languages')
-            ->orderBy($order_by,$order)
-            ->where('is_hot',$is_hot)
-            ->where('status', $status);
-        if ($pagination === true) {
-            return $query->paginate($number);
-        }
-        return  $query->limit($number)->get();
-    }
-    public function getPostCategoriesQuery($post_id, $post_type, $number, $pagination, $order_by, $order, $is_hot, $status) {
-        $query = DB::table('categoryables')->where('categoryable_id',$post_id)
-        ->where('categoryable_type',$post_type)
-        ->join('categories', 'category_id', '=', 'categories.id')->select('categories.*')
-            ->orderBy($order_by,$order)
-            ->where('is_hot',$is_hot)
-            ->where('status', $status);
-        if ($pagination === true) {
-            return $query->paginate($number);
-        }
-        return  $query->limit($number)->get();
-    }
-
 }
