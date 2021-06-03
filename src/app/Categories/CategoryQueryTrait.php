@@ -1,7 +1,7 @@
 <?php
 
 namespace VCComponent\Laravel\Category\Categories;
-
+use Illuminate\Support\Facades\DB;
 trait CategoryQueryTrait
 {
     public function withRelationPaginateQuery($column, $value, $relations, $perPage)
@@ -36,5 +36,15 @@ trait CategoryQueryTrait
 
         return $this->entity->where('status', self::STATUS_ACTIVE)->limit($value)->get();
     }
+    public function publishedQuery($value, $relation, $value_relation)
+    {
+        if ($relation !== null) {
+            return $this->entity->select('name', 'slug', 'id')->where('status', self::STATUS_ACTIVE)->with($relation)->limit($value)->get()->map(function ($query) use ($value_relation, $relation) {
+                $query->setRelation($relation, $query->$relation->take($value_relation));
+                return $query;
+            });
+        }
 
+        return $this->entity->where('status', self::STATUS_ACTIVE)->limit($value)->get();
+    }
 }
