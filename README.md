@@ -1,6 +1,6 @@
 # Category Manager Package for Laravel
 
-- [Category Manager Package for Laravel](#Category-manager-package-for-laravel)
+- [Category Manager Package for Laravel](#category-manager-package-for-laravel)
   - [Installation](#installation)
     - [Composer](#composer)
     - [Service Provider](#service-provider)
@@ -10,6 +10,10 @@
     - [URL namespace](#url-namespace)
     - [Model and Transformer](#model-and-transformer)
     - [Auth middleware](#auth-middleware)
+  - [Query functions provide](#query-functions-provide)
+    - [List of query functions](#list-of-query-functions)
+    - [Use](#use)
+    - [For example](#for-example)
   - [View](#view)
   - [Routes](#routes)
 
@@ -137,7 +141,52 @@ Configure auth middleware in configuration file `config\category.php`
 ],
 ```
 
-##View
+
+## Query functions provide
+
+### List of query functions
+Get the list of categories of post type
+```php
+public function getCategoriesQuery(array $where, $number = 10, $order_by ='order', $order = 'asc', $columns = ['*']);
+
+public function getCategoriesQueryPaginate(array $where, $number = 10, $order_by ='order', $order = 'asc', $columns = ['*']);
+// Get a list of categories of a paginated post type
+```
+Get the category list of an article
+```php
+public function getPostCategoriesQuery($post_id, array $where, $post_type = 'posts', $number = 10, $order_by = 'order', $order = 'asc');
+
+public function getPostCategoriesQueryPaginate($post_id, array $where, $post_type = 'posts', $number = 10, $order_by = 'order', $order = 'asc');
+// get the category list of a paginated article
+```
+### Use
+
+At controller use `CategoryRepository` and add function `__construct`
+```php
+use VCComponent\Laravel\Category\Repositories\CategoryRepository;
+```
+```php
+public function __construct(CategoryRepository $categoryRepo)
+{
+    $this->categoryRepo = $categoryRepo;
+}
+```
+### For example
+```php
+public function index() {
+    $categories = $this->categoryRepo->getCategoriesQuery(['type'=>'knowledge'],0);
+    // get all categories of post type knowledge (with $number = 0 get all records)
+    $categoriesPaginate = $this->categoryRepo
+    ->getCategoriesQueryPaginate(['type'=>'knowledge']);
+    // get categories of paginated  knowledge post type
+    $postCategories = $this->categoryRepo->getPostCategoriesQuery(45,['status'=>1]);
+    // retrieve the categories of posts id = 45
+    $postCategoriesPaginate = $this->categoryRepo
+    ->getPostCategoriesQueryPaginate(45,['status'=>1]);
+    // get the categories of posts id = 45 with pagination
+}
+```
+## View
 
 Your `CategoryListController` controller class must extends `VCComponent\Laravel\Category\Http\Controllers\Web\CategoryListController as BaseCategoryListController` implements `VCComponent\Laravel\Category\Contracts\ViewCategoryListControllerInterface;`
 
