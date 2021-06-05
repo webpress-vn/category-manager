@@ -9,6 +9,8 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use VCComponent\Laravel\Category\Entities\Category;
 use VCComponent\Laravel\Category\Repositories\CategoryRepository;
+use Illuminate\Support\Facades\DB;
+
 
 /**
  * Class CategoryRepositoryEloquent.
@@ -59,6 +61,45 @@ class CategoryRepositoryEloquent extends BaseRepository implements CategoryRepos
             });
 
         return $items;
+    }
+
+    public function getCategoriesQuery(array $where, $number = 10, $order_by ='order', $order = 'asc',$columns = ['*']) {
+        $query =  $this->getEntity()->where($where)
+            ->orderBy($order_by,$order);
+        if ($number > 0) {
+            return  $query->limit($number)->get($columns);
+        }
+        return $query->get($columns);
+    }
+
+    public function getCategoriesQueryPaginate(array $where, $number = 10, $order_by ='order', $order = 'asc', $columns = ['*']) {
+        $query =  $this->getEntity()->select($columns)
+            ->where($where)
+            ->orderBy($order_by,$order)
+            ->paginate($number);
+        return $query;
+    }
+
+    public function getPostCategoriesQuery($post_id, array $where, $post_type = 'posts', $number = 10, $order_by = 'order', $order = 'asc') {
+        $query = DB::table('categoryables')->where('categoryable_id',$post_id)
+        ->where('categoryable_type',$post_type)
+        ->join('categories', 'category_id', '=', 'categories.id')->select("categories.*")
+            ->orderBy($order_by,$order)
+            ->where($where);
+        if ($number > 0) {
+            return  $query->limit($number)->get();
+        }
+        return $query->get();
+    }
+
+    public function getPostCategoriesQueryPaginate($post_id, array $where, $post_type = 'posts', $number = 10, $order_by = 'order', $order = 'asc') {
+        $query = DB::table('categoryables')->where('categoryable_id',$post_id)
+        ->where('categoryable_type',$post_type)
+        ->join('categories', 'category_id', '=', 'categories.id')->select('categories.*')
+            ->orderBy($order_by,$order)
+            ->where($where)
+            ->paginate($number);
+        return $query;
     }
 
 }
