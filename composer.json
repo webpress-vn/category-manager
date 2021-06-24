@@ -1,21 +1,27 @@
 {
     "name": "webpress/category-manager",
-    "authors": [
-        {
-            "name": "sonhaichu",
-            "email": "sonhaichu@gmail.com"
-        }
-    ],
+    "authors": [{
+        "name": "sonhaichu",
+        "email": "sonhaichu@gmail.com"
+    }],
     "autoload": {
         "classmap": ["src/app/"],
         "psr-4": {
             "VCComponent\\Laravel\\Category\\": "src/app"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "VCComponent\\Laravel\\Category\\Test\\": "tests/"
+        }
+    },
     "require": {
         "webpress/core": "^0.1",
         "cviebrock/eloquent-sluggable": "7.0.1",
-        "doctrine/dbal": "v2.10.1"
+        "doctrine/dbal": "v2.10.1",
+    },
+    "require-dev": {
+        "orchestra/testbench": "5.0.0"
     },
     "prefer-stable": true,
     "extra": {
@@ -25,5 +31,13 @@
                 "VCComponent\\Laravel\\Category\\Providers\\CategoryServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "test": [
+            "vendor/bin/phpunit --color=always"
+        ],
+        "coverage": [
+            "vendor/bin/phpunit --coverage-html coverages"
+        ]
     }
 }
