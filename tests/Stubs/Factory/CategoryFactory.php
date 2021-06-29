@@ -9,7 +9,7 @@ $factory->define(Category::class, function (Faker $faker) {
         'name'       => $faker->words(rand(4, 7), true),
         'description' => $faker->sentences(rand(4, 7), true),
         'type' => 'products',
-        'status'      => 1
+        'status'      => 1,
     ];
 });
 

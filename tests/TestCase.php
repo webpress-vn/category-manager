@@ -26,6 +26,7 @@ class TestCase extends OrchestraTestCase
             CategoryRouteProvider::class,
             CategoryServiceProvider::class,
             ServiceProvider::class,
+
         ];
     }
 
@@ -57,6 +58,7 @@ class TestCase extends OrchestraTestCase
         $app['config']->set('category.namespace', 'category-management');
         $app['config']->set('category.models', [
             'category' => \VCComponent\Laravel\Category\Test\Stubs\Models\Category::class,
+
         ]);
         $app['config']->set('category.transformers', [
             'category' => \VCComponent\Laravel\Category\Transformers\CategoryTransformer::class,
@@ -106,5 +108,17 @@ class TestCase extends OrchestraTestCase
             ],
         ]);
 
+    }
+    public function assertValidation($response, $field, $error_message)
+    {
+        $response->assertStatus(422);
+        $response->assertJson([
+            'message' => 'The given data was invalid.',
+            "errors"  => [
+                $field => [
+                    $error_message,
+                ],
+            ],
+        ]);
     }
 }
