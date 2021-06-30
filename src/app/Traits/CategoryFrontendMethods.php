@@ -76,9 +76,9 @@ trait CategoryFrontendMethods
 
     public function show(Request $request, $id)
     {
-        $category = $this->repository->findWhere(['id' => $id, 'type' => $this->type])->first();
+        $category = $this->repository->findWhere(['id' => $id])->first();
         if (!$category) {
-            throw new NotFoundException(title_case($this->type) . ' entity');
+            throw new NotFoundException(' entity');
         }
 
         if (config('category.auth_middleware')['frontend']['middleware']) {
@@ -120,9 +120,9 @@ trait CategoryFrontendMethods
 
     public function update(Request $request, $id)
     {
-        $category = $this->repository->findWhere(['id' => $id, 'type' => $this->type])->first();
+        $category = $this->repository->findWhere(['id' => $id])->first();
         if (!$category) {
-            throw new NotFoundException(title_case($this->type) . ' entity');
+            throw new NotFoundException(' entity');
         }
 
         if (config('category.auth_middleware')['frontend']['middleware'] !== '') {
@@ -181,11 +181,10 @@ trait CategoryFrontendMethods
         $data = $request->all();
 
         $categories = $this->entity->whereIn('id', $data['item_ids'])
-            ->where('type', $this->type)
             ->get();
 
         if ($categories->count() == 0) {
-            throw new NotFoundException(title_case($this->type) . ' entities');
+            throw new NotFoundException(' entities');
         }
 
         $this->validator->isValid($request, 'BULK_UPDATE_STATUS');
@@ -200,9 +199,9 @@ trait CategoryFrontendMethods
 
     public function updateStatusItem(Request $request, $id)
     {
-        $category = $this->repository->findWhere(['id' => $id, 'type' => $this->type])->first();
+        $category = $this->repository->findWhere(['id' => $id])->first();
         if (!$category) {
-            throw new NotFoundException(title_case($this->type) . ' entity');
+            throw new NotFoundException(' entity');
         }
 
         if (config('category.auth_middleware')['frontend']['middleware'] !== '') {
