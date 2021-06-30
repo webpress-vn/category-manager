@@ -217,11 +217,10 @@ trait CategoryAdminMethods
         $data = $request->all();
 
         $categories = $this->entity->whereIn('id', $data['item_ids'])
-            ->where('type', $this->type)
             ->get();
 
         if ($categories->count() == 0) {
-            throw new NotFoundException(title_case($this->type) . ' entities');
+            throw new NotFoundException(' entities');
         }
 
         $this->validator->isValid($request, 'BULK_UPDATE_STATUS');
@@ -242,15 +241,15 @@ trait CategoryAdminMethods
                 throw new PermissionDeniedException();
             }
         }
+        $data             = $request->all();
 
-        $category = $this->repository->findWhere(['id' => $id, 'type' => $this->type])->first();
+        $category = $this->repository->findWhere(['id' => $id])->first();
         if (!$category) {
-            throw new NotFoundException(title_case($this->type) . ' entity');
+            throw new NotFoundException(' entity');
         }
 
         $this->validator->isValid($request, 'UPDATE_STATUS_ITEM');
 
-        $data             = $request->all();
         $category->status = $data['status'];
         $category->save();
 
