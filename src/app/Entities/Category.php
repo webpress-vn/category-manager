@@ -41,7 +41,7 @@ class Category extends Model implements Transformable, CategorySchema, CategoryM
 
     public function children()
     {
-        return $this->hasMany(self::class, 'parent_id', 'id');
+        return $this->hasMany(self::class, 'parent_id')->with('children');
     }
 
     public function parent()
